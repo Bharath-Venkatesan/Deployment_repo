@@ -117,6 +117,7 @@ function Home() {
                 size="large"
                 startIcon={<CloudUploadIcon />}
                 sx={{
+                  
                   borderRadius: 3,
                   px: 4,
                   py: 1.5,
@@ -311,11 +312,11 @@ function Home() {
       </Box>
 
       {/* ===== FOOTER ===== */}
-      <Box sx={{ py: 4, textAlign: "center", bgcolor: "#333", color: "#fff" }}>
+      {/* <Box sx={{ py: 4, textAlign: "center", bgcolor: "#333", color: "#fff" }}>
         <Typography variant="body2">
           &copy; {new Date().getFullYear()} Brain Tumor AI Detection. All rights reserved.
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
