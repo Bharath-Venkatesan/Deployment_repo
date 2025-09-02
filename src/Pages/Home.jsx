@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -9,13 +9,14 @@ import {
   Stack,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import InsightsIcon from "@mui/icons-material/Insights";
-import SecurityIcon from "@mui/icons-material/Security";
-import HealingIcon from "@mui/icons-material/Healing";
-import UploadIcon from "@mui/icons-material/CloudUpload";
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import {
+  CloudUpload as CloudUploadIcon,
+  Insights as InsightsIcon,
+  Security as SecurityIcon,
+  Healing as HealingIcon,
+  Analytics as AnalyticsIcon,
+  CheckCircle as CheckCircleIcon,
+} from "@mui/icons-material";
 import {
   Timeline,
   TimelineItem,
@@ -28,11 +29,15 @@ import {
 
 function Home() {
   const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleUploadClick = () => fileInputRef.current.click();
 
   const handleFileChange = (e) => {
-    if (e.target.files[0]) console.log("Selected file:", e.target.files[0]);
+    if (e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+      console.log("Selected file:", e.target.files[0]);
+    }
   };
 
   const features = [
@@ -61,7 +66,7 @@ function Home() {
 
   const steps = [
     {
-      icon: <UploadIcon />,
+      icon: <CloudUploadIcon />,
       step: "Upload Scan",
       description: "Upload your MRI securely through our encrypted system.",
     },
@@ -94,12 +99,7 @@ function Home() {
         }}
       >
         <Container maxWidth="lg">
-          <Typography
-            variant="h2"
-            fontWeight="bold"
-            gutterBottom
-            sx={{ mb: 3 }}
-          >
+          <Typography variant="h2" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
             AI-Powered Brain Tumor Detection
           </Typography>
           <Typography
@@ -110,36 +110,47 @@ function Home() {
             scans accurately, helping doctors make faster and reliable decisions.
           </Typography>
 
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={3}
-            justifyContent="center"
-          >
-            
-           
-
-            <Link to="/accuracy" style={{ textDecoration: "none" }}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center">
+            <Link to="/add-patient" style={{ textDecoration: "none" }}>
               <Button
-                variant="outlined"
+                variant="contained"
                 size="large"
+                startIcon={<CloudUploadIcon />}
                 sx={{
                   borderRadius: 3,
-                  px: 6,
-                  py: 1.8,
+                  px: 4,
+                  py: 1.5,
                   fontSize: "1rem",
                   textTransform: "none",
-                  borderColor: "#fff",
-                  color: "#fff",
-                  "&:hover": {
-                    bgcolor: "rgba(255,255,255,0.1)",
-                    borderColor: "#fff",
-                  },
                 }}
               >
-                Learn More
+                Add Patient
               </Button>
             </Link>
+            {/* <Button
+              variant="contained"
+              size="large"
+              onClick={handleUploadClick}
+              sx={{
+                borderRadius: 3,
+                px: 4,
+                py: 1.5,
+                fontSize: "1rem",
+                textTransform: "none",
+                bgcolor: "#ff6a00",
+                color: "#fff",
+                "&:hover": { bgcolor: "#ff8a3c" },
+              }}
+            >
+              Upload Scan
+            </Button> */}
           </Stack>
+
+          {selectedFile && (
+            <Typography mt={2} variant="body2">
+              Selected File: {selectedFile.name}
+            </Typography>
+          )}
 
           <input
             type="file"
@@ -196,10 +207,7 @@ function Home() {
                       display: "flex",
                       justifyContent: "center",
                       mb: 2,
-                      "& svg": {
-                        transition: "0.3s",
-                        "&:hover": { transform: "scale(1.2)" },
-                      },
+                      "& svg": { transition: "0.3s", "&:hover": { transform: "scale(1.2)" } },
                     }}
                   >
                     {feature.icon}
@@ -220,13 +228,7 @@ function Home() {
       {/* ===== HOW IT WORKS TIMELINE ===== */}
       <Box sx={{ mt: 14, py: 12, bgcolor: "#f0f2f5" }}>
         <Container maxWidth="md">
-          <Typography
-            variant="h4"
-            textAlign="center"
-            fontWeight="bold"
-            gutterBottom
-            sx={{ mb: 3 }}
-          >
+          <Typography variant="h4" textAlign="center" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
             How It Works
           </Typography>
           <Typography
@@ -235,16 +237,12 @@ function Home() {
             textAlign="center"
             sx={{ maxWidth: 700, mx: "auto", mb: 8 }}
           >
-            A simple 3-step process to get instant AI-powered insights from your
-            MRI scans.
+            A simple 3-step process to get instant AI-powered insights from your MRI scans.
           </Typography>
 
           <Timeline
             sx={{
-              [`& .${timelineItemClasses.root}:before`]: {
-                flex: 0,
-                padding: 0,
-              },
+              [`& .${timelineItemClasses.root}:before`]: { flex: 0, padding: 0 },
             }}
           >
             {steps.map((item, i) => (
@@ -289,8 +287,7 @@ function Home() {
           color="rgba(255,255,255,0.85)"
           sx={{ maxWidth: 600, mx: "auto", mb: 4 }}
         >
-          Upload your MRI scan today and experience the power of AI in early
-          brain tumor detection.
+          Upload your MRI scan today and experience the power of AI in early brain tumor detection.
         </Typography>
         <Button
           variant="contained"
@@ -306,11 +303,7 @@ function Home() {
             color: "#fff",
             boxShadow: "0 6px 20px rgba(255,106,0,0.5)",
             transition: "0.3s",
-            "&:hover": {
-              transform: "translateY(-2px) scale(1.05)",
-              boxShadow: "0 10px 25px rgba(255,106,0,0.6)",
-              bgcolor: "#ff8a3c",
-            },
+            "&:hover": { transform: "translateY(-2px) scale(1.05)", boxShadow: "0 10px 25px rgba(255,106,0,0.6)", bgcolor: "#ff8a3c" },
           }}
         >
           Upload Scan
@@ -318,7 +311,11 @@ function Home() {
       </Box>
 
       {/* ===== FOOTER ===== */}
-      
+      <Box sx={{ py: 4, textAlign: "center", bgcolor: "#333", color: "#fff" }}>
+        <Typography variant="body2">
+          &copy; {new Date().getFullYear()} Brain Tumor AI Detection. All rights reserved.
+        </Typography>
+      </Box>
     </Box>
   );
 }
